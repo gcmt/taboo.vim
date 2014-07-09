@@ -1,0 +1,177 @@
+*taboo.txt* *taboo*
+
+                                   Taboo
+                                     ~
+                              Reference Manual
+
+
+==============================================================================
+CONTENTS                                                      *taboo-contents*
+
+    1. Overview .............................. |taboo-overview|
+    2. Installation .......................... |taboo-installation|
+    3. Commands .............................. |taboo-commands|
+    4. Options ............................... |taboo-options|
+    5. Public interface ...................... |taboo-public-interface|
+    6. Credits ............................... |taboo-credits|
+    7. License ............................... |taboo-license|
+
+
+==============================================================================
+1. Overview                                                   *taboo-overview*
+
+Taboo aims to ease the way you set the vim tabline. In addition, Taboo provides
+fews useful utilities for renaming tabs.
+
+
+==============================================================================
+2. Installation                                           *taboo-installation*
+
+Install either with Vundle, Pathogen or NeoBundle.
+
+NOTE: tabs look different in terminal vim than in gui versions. If you wish
+having terminal style tabs even in gui versions you have to add the following
+line to your .vimrc file
+>
+    set guioptions-=e
+<
+Taboo is able to remeber custom tab names when you save the current session
+but you are required to set the following option in your .vimrc file
+>
+    set sessionoptions+=tabpages,globals
+<
+
+==============================================================================
+3. Commands                                                   *taboo-commands*
+
+------------------------------------------------------------------------------
+TabooRename <name>                                               *TabooRename*
+
+Renames the current tab with the name provided.
+
+
+------------------------------------------------------------------------------
+TabooOpen <name>                                                   *TabooOpen*
+
+To opn a new tab next to active. An argument (the tab name) is required.
+Opens a new tab and and gives it the name provided.
+
+
+------------------------------------------------------------------------------
+TabooReset                                                        *TabooReset*
+
+Removes the custom label associated with the current tab.
+
+
+==============================================================================
+4. Options                                                     *taboo-options*
+
+------------------------------------------------------------------------------
+                                                          *'taboo_tab_format'*
+
+With this option you can customize the way tabs look like. Below all the
+available items:
+
+    `%f` -> the name of the first buffer open in the tab
+    `%a` -> the path relative to `$HOME` of the first buffer open in the tab
+    `%n` -> the tab number, but only on the active tab
+    `%N` -> the tab number on each tab
+    `%w` -> the number of windows opened into the tab, but only on the active tab
+    `%W` -> the number of windows opened into the tab, on each tab
+    `%m` -> the modified flag
+
+Default: " %f%m "
+
+
+------------------------------------------------------------------------------
+                                                  *'taboo_renamed_tab_format'*
+
+Same as |'taboo_tab_format'| but for renamed tabs. In addition, you can use
+the following items:
+
+    `%l` -> the custom tab name set with |TabooRename|
+
+Note that with renamed tabs the items `%f` and `%a` will be evaluated to an
+empty string.
+
+Default: " [%f]%m "
+
+------------------------------------------------------------------------------
+                                                   *'taboo_modified_tab_flag'*
+
+This option controls how the modified flag looks like.
+
+Default: "*"
+
+------------------------------------------------------------------------------
+                                                             *'taboo_tabline'*
+
+Turn off this option and Taboo won't get in the way of your tabline.
+
+Default: 1
+
+------------------------------------------------------------------------------
+                                                    *'taboo_close_tabs_label'*
+
+Set this option if you want a flag on the tabline for closing the tabline
+itself when clicked. The flag will appear at the right side of the tabline.
+This position is fixed. When the value is an empty string nothing will be
+displayed.
+
+Default: ""
+
+------------------------------------------------------------------------------
+                                                   *'taboo_unnamed_tab_label'*
+
+Set this option if you prefer a different name for tabs containing an unnamed
+buffer.
+
+Default: "[no name]"
+
+==============================================================================
+5. Public interface                                   *taboo-public-interface*
+
+Taboo provides a couple of public functions that may be used by third party
+plugins:
+
+    `TabooTabTitle()` -> `string`
+
+    This function returns the formatted tab title according to the options
+    |'taboo_tab_format'| and |'taboo_renamed_tab_format'| (for renamed tabs).
+
+    `TabooTabName()` -> `string`
+
+    This function returns the name of a renamed tab. If a tab has no name,
+    an empty string is returned.
+
+
+==============================================================================
+6. Credits                                                     *taboo-credits*
+
+Author: Giacomo Comitti
+Contributors: https://github.com/gcmt/taboo.vim/contributors
+Git repository: https://github.com/gcmt/taboo.vim
+
+
+==============================================================================
+7. License                                                     *taboo-license*
+
+Copyright (c) 2014 Giacomo Comitti
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
