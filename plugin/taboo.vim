@@ -177,7 +177,7 @@ endfu
 
 fu s:fullpath(bufname, pretty)
     let path = fnamemodify(a:bufname, ':p')
-    return a:pretty ? substitute(path, $HOME, '~', '') : dirname
+    return a:pretty ? substitute(path, $HOME, '~', '') : path
 endfu
 
 " To refresh the tabline.
