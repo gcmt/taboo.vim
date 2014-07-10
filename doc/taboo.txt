@@ -82,7 +82,6 @@ available items:
 
 Default: " %f%m "
 
-
 ------------------------------------------------------------------------------
                                                   *'taboo_renamed_tab_format'*
 
@@ -91,7 +90,7 @@ the following items:
 
     `%l` -> the custom tab name set with |TabooRename|
 
-Note that with renamed tabs the items `%f` and `%a` will be evaluated to an
+NOTE: with renamed tabs the items `%f` and `%a` will be evaluated to an
 empty string.
 
 Default: " [%f]%m "
@@ -106,7 +105,9 @@ Default: "*"
 ------------------------------------------------------------------------------
                                                              *'taboo_tabline'*
 
-Turn off this option and Taboo won't get in the way of your tabline.
+Turn off this option and Taboo won't generate the tabline. This may be useful
+if you want to do it yourself with the help of the functions
+`TabooTabTitle(..)` or `TabooTabName(..)`.
 
 Default: 1
 
@@ -128,18 +129,19 @@ buffer.
 
 Default: "[no name]"
 
+
 ==============================================================================
 5. Public interface                                   *taboo-public-interface*
 
 Taboo provides a couple of public functions that may be used by third party
 plugins:
 
-    `TabooTabTitle()` -> `string`
+    `TabooTabTitle(tabnumber)` -> `string`
 
     This function returns the formatted tab title according to the options
     |'taboo_tab_format'| and |'taboo_renamed_tab_format'| (for renamed tabs).
 
-    `TabooTabName()` -> `string`
+    `TabooTabName(tabnumber)` -> `string`
 
     This function returns the name of a renamed tab. If a tab has no name,
     an empty string is returned.
@@ -175,3 +177,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+vim:tw=78:sw=4:ts=8:ft=help:norl:noet:

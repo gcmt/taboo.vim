@@ -64,7 +64,7 @@ Default: `*`
 
 **g:taboo\_tabline**
 
-Turn off this option and Taboo won't get in the way of your tabline.
+Turn off this option and Taboo won't generate the tabline. This may be useful if you want to do it yourself with the help of the functions `TabooTabTitle(..)` or `TabooTabName(..)`.
 
 Default: `1`
 
@@ -72,5 +72,10 @@ Default: `1`
 
 Taboo provides a couple of public functions that may be used by third party plugins:
 
-- `TabooTabTitle`: this function returns the formatted tab title according to the options `g:taboo_tab_format` and `g:taboo_renamed_tab_format` (for renamed tabs).
-- `TabooTabName`: this function returns the name of a renamed tab. If a tab has no name, an empty string is returned.
+- `TabooTabTitle(tabnumber)` -> `string` 
+    
+    This function returns the formatted tab title according to the options `g:taboo_tab_format` and `g:taboo_renamed_tab_format` (for renamed tabs).
+
+- `TabooTabName(tabnumber)` -> `strings` 
+
+    This function returns the name of a renamed tab. If a tab has no name, an empty string is returned.
