@@ -1,8 +1,6 @@
-*taboo.txt* *taboo*
+ *taboo* *taboo.txt*
 
                                    Taboo
-                                     ~
-                              Reference Manual
 
 
 ==============================================================================
