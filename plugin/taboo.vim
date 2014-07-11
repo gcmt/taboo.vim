@@ -88,9 +88,9 @@ endfu
 
 " To return the formatted tab title
 fu TabooTabTitle(tabnr)
-    let title = s:gettabvar(i, "taboo_tab_name")
-    let fmt = empty(title) ? g:taboo_tab_format : g:taboo_renamed_tab_format
-    return s:expand(i, fmt)
+    let tabname = s:tabname(a:tabnr)
+    let fmt = empty(tabname) ? g:taboo_tab_format : g:taboo_renamed_tab_format
+    return s:expand(a:tabnr, fmt)
 endfu
 
 " To return the name of the current tab, if one has been set
