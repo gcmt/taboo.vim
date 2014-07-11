@@ -95,7 +95,7 @@ endfu
 
 " To return the name of the current tab, if one has been set
 fu TabooTabName(tabnr)
-    return s:tabname(tabnr)
+    return s:tabname(a:tabnr)
 endfu
 
 " Functions for formatting the tab title
