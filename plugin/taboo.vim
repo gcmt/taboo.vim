@@ -62,7 +62,7 @@ endfu
 
 " To construct a single tab title for gui vim.
 fu TabooGuiTabTitle()
-    return TabooTabTitle()
+    return TabooTabTitle(tabpagenr())
 endfu
 
 " To rename the current tab.
