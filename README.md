@@ -11,30 +11,22 @@ Install either with [Vundle](https://github.com/gmarik/vundle), [Pathogen](https
 set guioptions-=e
 ```
 
-Taboo is able to remeber custom tab names when you save the current session but you are required to set the following option in your .vimrc file
+Taboo is able to remeber tab names when you save the current session but you are required to set the following option in your .vimrc file
 ```vim
 set sessionoptions+=tabpages,globals
 ```
 
 ### Commands
 
-**TabooRename {name}**
-
-Renames the current tab with the name provided.
-
-**TabooOpen {name}**
-
-Opens a new tab and and gives it the name provided.
-
-**TabooReset**
-
-Removes the custom label associated with the current tab.
+- `TabooRename <tabname>` Renames the current tab with the name provided.
+- `TabooOpen <tabname>` Opens a new tab and and gives it the name provided.
+- `TabooReset` Removes the custom label associated with the current tab.
 
 ### Basic options
 
 **g:taboo\_tab\_format**
 
-With this option you can customize the way tabs look like. Below all the available items:
+With this option you can customize the look of tabs. Below all the available items:
 
 - `%f`: the name of the first buffer open in the tab
 - `%a`: the path relative to `$HOME` of the first buffer open in the tab
@@ -72,10 +64,10 @@ Default: `1`
 
 Taboo provides a couple of public functions that may be used by third party plugins:
 
-- `TabooTabTitle(tabnumber)` -> `string` 
-    
+- `TabooTabTitle(tabnumber)` -> `string`
+
     This function returns the formatted tab title according to the options `g:taboo_tab_format` and `g:taboo_renamed_tab_format` (for renamed tabs).
 
-- `TabooTabName(tabnumber)` -> `strings` 
+- `TabooTabName(tabnumber)` -> `string`
 
     This function returns the name of a renamed tab. If a tab has no name, an empty string is returned.

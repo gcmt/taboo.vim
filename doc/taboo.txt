@@ -33,7 +33,7 @@ line to your .vimrc file
 >
     set guioptions-=e
 <
-Taboo is able to remeber custom tab names when you save the current session
+Taboo is able to remeber tab names when you save the current session
 but you are required to set the following option in your .vimrc file
 >
     set sessionoptions+=tabpages,globals
@@ -67,7 +67,7 @@ Removes the custom label associated with the current tab.
 ------------------------------------------------------------------------------
                                                           *'taboo_tab_format'*
 
-With this option you can customize the way tabs look like. Below all the
+With this option you can customize the look of tabs. Below all the
 available items:
 
     `%f` -> the name of the first buffer open in the tab
