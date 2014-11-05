@@ -53,9 +53,10 @@ fu TabooTabline()
         let tabline .= i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
         let title = s:gettabvar(i, "taboo_tab_name")
         let fmt = empty(title) ? g:taboo_tab_format : g:taboo_renamed_tab_format
+        let tabline .= '%' . i . 'T'
         let tabline .= s:expand(i, fmt)
     endfor
-    let tabline .= '%#TabLineFill#'
+    let tabline .= '%#TabLineFill#%T'
     let tabline .= '%=%#TabLine#%999X' . g:taboo_close_tabs_label
     return tabline
 endfu
