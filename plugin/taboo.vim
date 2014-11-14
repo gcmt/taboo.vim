@@ -144,8 +144,15 @@ fu s:modflag(tabnr)
 endfu
 
 fu s:bufname(tabnr)
-    let bufnum = tabpagebuflist(a:tabnr)[0]
-    let basename = s:basename(bufname(bufnum))
+    let buffers = tabpagebuflist(a:tabnr)
+    let basename = s:basename(bufname(buffers[0]))
+    " pick the first normal buffer
+    for buf in buffers
+        if buflisted(buf) && getbufvar(buf, "&bt") != 'nofile'
+            let basename = s:basename(bufname(buf))
+            break
+        end
+    endfor
     if !empty(basename)
         return basename
     endif
