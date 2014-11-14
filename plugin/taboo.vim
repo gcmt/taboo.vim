@@ -145,25 +145,20 @@ endfu
 
 fu s:bufname(tabnr)
     let buffers = tabpagebuflist(a:tabnr)
-    let basename = s:basename(bufname(buffers[0]))
-    " pick the first normal buffer
-    for buf in buffers
-        if buflisted(buf) && getbufvar(buf, "&bt") != 'nofile'
-            let basename = s:basename(bufname(buf))
-            break
-        end
-    endfor
-    if !empty(basename)
-        return basename
+    let buf = s:first_normal_buffer(buffers)
+    let bname = bufname(buf > -1 ? buf : buffers[0])
+    if !empty(bname)
+        return s:basename(bname)
     endif
     return g:taboo_unnamed_tab_label
 endfu
 
 fu s:bufpath(tabnr)
-    let bufnum = tabpagebuflist(a:tabnr)[0]
-    let path = s:fullpath(bufname(bufnum), 1)
-    if !empty(path)
-        return path
+    let buffers = tabpagebuflist(a:tabnr)
+    let buf = s:first_normal_buffer(buffers)
+    let bname = bufname(buf > -1 ? buf : buffers[0])
+    if !empty(bname)
+        return s:fullpath(bname, 1)
     endif
     return g:taboo_unnamed_tab_label
 endfu
@@ -187,6 +182,16 @@ fu s:fullpath(bufname, pretty)
     let path = fnamemodify(a:bufname, ':p')
     return a:pretty ? substitute(path, $HOME, '~', '') : path
 endfu
+
+fu s:first_normal_buffer(buffers)
+    for buf in a:buffers
+        if buflisted(buf) && getbufvar(buf, "&bt") != 'nofile'
+            return buf
+        end
+    endfor
+    return -1
+endfu
+
 
 " To refresh the tabline.
 " This function also ensures that g:Taboo_tabs stays updated.
