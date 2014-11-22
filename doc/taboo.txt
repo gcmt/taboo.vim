@@ -91,7 +91,7 @@ the following items:
 NOTE: with renamed tabs the items `%f` and `%a` will be evaluated to an
 empty string.
 
-Default: " [%f]%m "
+Default: " [%l]%m "
 
 ------------------------------------------------------------------------------
                                                    *'taboo_modified_tab_flag'*

@@ -36,7 +36,7 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%W`: the number of windows opened into the tab, on each tab
 - `%m`: the modified flag
 
-Default: ` %f%m `
+Default: `" %f%m "`
 
 **g:taboo\_renamed\_tab\_format**
 
@@ -44,15 +44,15 @@ Same as `g:taboo_tab_format` but for renamed tabs. In addition, you can use the 
 
 - `%l`: the custom tab name set with `:TabooRename`
 
-Note that with renamed tabs the items `%f` and `%a` will be evaluated to an empty string.
+**NOTE:** with renamed tabs the items `%f` and `%a` will be evaluated to an empty string.
 
-Default: ` [%f]%m `
+Default: `" [%l]%m "`
 
 **g:taboo\_modified\_tab\_flag**
 
 This option controls how the modified flag looks like.
 
-Default: `*`
+Default: `"*"`
 
 **g:taboo\_tabline**
 
