@@ -11,7 +11,7 @@ Install either with [Vundle](https://github.com/gmarik/vundle), [Pathogen](https
 set guioptions-=e
 ```
 
-Taboo is able to remeber tab names when you save the current session but you are required to set the following option in your .vimrc file
+Taboo is able to remember tab names when you save the current session but you are required to set the following option in your .vimrc file
 ```vim
 set sessionoptions+=tabpages,globals
 ```
