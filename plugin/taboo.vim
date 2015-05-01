@@ -110,6 +110,8 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
     let out = substitute(out, '\C%w', s:wincount(a:tabnr, 0), "")
     let out = substitute(out, '\C%W', s:wincount(a:tabnr, 1), "")
+    let out = substitute(out, '\C%u', s:wincountUnicode(a:tabnr, 0), "")
+    let out = substitute(out, '\C%U', s:wincountUnicode(a:tabnr, 1), "")
     let out = substitute(out, '\C%m', s:modflag(a:tabnr), "")
     let out = substitute(out, '\C%l', s:tabname(a:tabnr), "")
     return out
@@ -132,6 +134,25 @@ fu s:wincount(tabnr, ubiquitous)
         return windows
     endif
     return a:tabnr == tabpagenr() ? windows : ''
+endfu
+
+" Adapted from Vim-CtrlSpace (https://github.com/szw/vim-ctrlspace)
+fu s:wincountUnicode(tabnr, ubiquitous)
+    let buffers_number = tabpagewinnr(a:tabnr, '$')
+    let number_to_show = ""
+
+    let small_numbers = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
+    let number_str    = string(buffers_number)
+
+    for i in range(0, len(number_str) - 1)
+        let number_to_show .= small_numbers[str2nr(number_str[i])]
+    endfor
+
+    if a:ubiquitous
+        return number_to_show
+    endif
+
+    return a:tabnr == tabpagenr() ? number_to_show : ''
 endfu
 
 fu s:modflag(tabnr)

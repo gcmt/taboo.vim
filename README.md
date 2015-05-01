@@ -34,6 +34,8 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%N`: the tab number on each tab
 - `%w`: the number of windows opened into the tab, but only on the active tab
 - `%W`: the number of windows opened into the tab, on each tab
+- `%u`: same as %w, but using unicode characters
+- `%U`: same as %W, but using unicode characters
 - `%m`: the modified flag
 
 Default: `" %f%m "`
