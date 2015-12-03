@@ -106,6 +106,7 @@ fu s:expand(tabnr, fmt)
     let out = a:fmt
     let out = substitute(out, '\C%f', s:bufname(a:tabnr), "")
     let out = substitute(out, '\C%a', s:bufpath(a:tabnr), "")
+    let out = substitute(out, '\C%s', s:bufsimplepath(a:tabnr), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
     let out = substitute(out, '\C%w', s:wincount(a:tabnr, 0), "")
@@ -184,6 +185,16 @@ fu s:bufpath(tabnr)
     return g:taboo_unnamed_tab_label
 endfu
 
+fu s:bufsimplepath(tabnr)
+    let buffers = tabpagebuflist(a:tabnr)
+    let buf = s:first_normal_buffer(buffers)
+    let bname = bufname(buf > -1 ? buf : buffers[0])
+    if !empty(bname)
+        return pathshorten(s:fullpath(bname, 1))
+    endif
+    return g:taboo_unnamed_tab_label
+endfu
+
 " Helpers
 " =============================================================================
 
@@ -201,7 +212,15 @@ endfu
 
 fu s:fullpath(bufname, pretty)
     let path = fnamemodify(a:bufname, ':p')
-    return a:pretty ? substitute(path, $HOME, '~', '') : path
+    if a:pretty
+        if stridx(path, getcwd()) == 0
+            let path = strpart(path, strlen(getcwd()))
+            let path = substitute(path, '^/', '', '')
+        else
+            let path = substitute(path, $HOME, '~', '')
+        end
+    end
+    return path
 endfu
 
 fu s:first_normal_buffer(buffers)
