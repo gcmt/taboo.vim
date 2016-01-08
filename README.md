@@ -37,6 +37,8 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%u`: same as %w, but using unicode characters
 - `%U`: same as %W, but using unicode characters
 - `%m`: the modified flag
+- `%p`: the tab current working directory
+- `%p`: the last component of the tab current working directory
 
 Default: `" %f%m "`
 
