@@ -114,7 +114,23 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%U', s:wincountUnicode(a:tabnr, 1), "")
     let out = substitute(out, '\C%m', s:modflag(a:tabnr), "")
     let out = substitute(out, '\C%l', s:tabname(a:tabnr), "")
+    let out = substitute(out, '\C%p', s:tabpwd(a:tabnr, 0), "")
+    let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
     return out
+endfu
+
+fu s:tabpwd(tabnr, last_component)
+  if a:tabnr == tabpagenr()
+    cal s:settabvar(a:tabnr, "taboo_tab_wd", getcwd())
+  endif
+
+  let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
+
+  if a:last_component
+    let tabcwd = split(tabcwd, "/")[-1]
+  endif
+
+  return tabcwd
 endfu
 
 fu s:tabname(tabnr)
@@ -217,6 +233,7 @@ endfu
 " To refresh the tabline.
 " This function also ensures that g:Taboo_tabs stays updated.
 fu s:refresh_tabline()
+    cal s:settabvar(tabpagenr(), "taboo_tab_wd", getcwd())
     if exists("g:SessionLoad")
         return
     endif
