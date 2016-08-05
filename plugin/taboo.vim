@@ -127,7 +127,7 @@ fu s:tabpwd(tabnr, last_component)
   let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
 
   if a:last_component
-    let tabcwd = split(tabcwd, "/")[-1]
+    let tabcwd = get(split(tabcwd, "/"), -1, "")
   endif
 
   return tabcwd
