@@ -101,6 +101,9 @@ endfu
 
 " Functions for formatting the tab title
 " =============================================================================
+fu s:is_windows_system()
+    return has('win16') || has('win32') || has('win64')
+endfu
 
 fu s:expand(tabnr, fmt)
     let out = a:fmt
@@ -117,7 +120,7 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%p', s:tabpwd(a:tabnr, 0), "")
     let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
 
-    if (has("win16") || has("win32") || has("win64"))
+    if s:is_windows_system()
         let out = substitute(out, '/', '\\', 'g')
     endif
     return out
@@ -125,13 +128,17 @@ endfu
 
 fu s:tabpwd(tabnr, last_component)
   if a:tabnr == tabpagenr()
-    cal s:settabvar(a:tabnr, "taboo_tab_wd", getcwd())
+      cal s:settabvar(a:tabnr, "taboo_tab_wd", substitute(getcwd(), '\\', '\\\\', 'g'))
   endif
 
   let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
 
   if a:last_component
-    let tabcwd = get(split(substitute(tabcwd, "/", "\\", 'g'), "/"), -1, "")
+    if s:is_windows_system()
+      let tabcwd = get(split(substitute(tabcwd, '/', '\\', 'g'), '\\'), -1, "")
+    else
+      let tabcwd = get(split(substitute(tabcwd, '/', '\\', 'g'), "/"), -1, "")
+    endif
   endif
 
   return tabcwd
@@ -238,7 +245,7 @@ endfu
 " To refresh the tabline.
 " This function also ensures that g:Taboo_tabs stays updated.
 fu s:refresh_tabline()
-    cal s:settabvar(tabpagenr(), "taboo_tab_wd", getcwd())
+    cal s:settabvar(tabpagenr(), "taboo_tab_wd", substitute(getcwd(), '\\', '\\\\', 'g'))
     if exists("g:SessionLoad")
         return
     endif
