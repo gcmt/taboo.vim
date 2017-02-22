@@ -116,6 +116,10 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%l', s:tabname(a:tabnr), "")
     let out = substitute(out, '\C%p', s:tabpwd(a:tabnr, 0), "")
     let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
+
+    if (has("win16") || has("win32") || has("win64"))
+        let out = substitute(out, '/', '\\', 'g')
+    endif
     return out
 endfu
 
@@ -127,7 +131,7 @@ fu s:tabpwd(tabnr, last_component)
   let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
 
   if a:last_component
-    let tabcwd = get(split(tabcwd, "/"), -1, "")
+    let tabcwd = get(split(substitute(tabcwd, "/", "\\", 'g'), "/"), -1, "")
   endif
 
   return tabcwd
@@ -216,8 +220,9 @@ fu s:basename(bufname)
 endfu
 
 fu s:fullpath(bufname, pretty)
-    let path = fnamemodify(a:bufname, ':p')
-    return a:pretty ? substitute(path, $HOME, '~', '') : path
+    let path = substitute(fnamemodify(a:bufname, ':p'), '\\', '/', 'g')
+    let home = substitute($HOME, '\\', '/', 'g')
+    return a:pretty ? substitute(path, home, '~', '') : path
 endfu
 
 fu s:first_normal_buffer(buffers)
