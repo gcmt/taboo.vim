@@ -11,8 +11,9 @@ CONTENTS                                                      *taboo-contents*
     3. Commands .............................. |taboo-commands|
     4. Options ............................... |taboo-options|
     5. Public interface ...................... |taboo-public-interface|
-    6. Credits ............................... |taboo-credits|
-    7. License ............................... |taboo-license|
+    6  Highlight Groups ...................... |taboo-highlights|
+    7. Credits ............................... |taboo-credits|
+    8. License ............................... |taboo-license|
 
 
 ==============================================================================
@@ -148,7 +149,35 @@ plugins:
 
 
 ==============================================================================
-6. Credits                                                     *taboo-credits*
+6. Highlight Groups                                         *taboo-highlights*
+
+Taboo utilized existing vim highlight groups TabLine, TabLineSel, and
+TabLineFill to render tabs, the selected tab, and any unused space on the
+tabline. In addition, Taboo provides utilizes the following highlight groups
+that can be set to style specific components of the tabline Taboo renders.
+
+------------------------------------------------------------------------------
+                                                                 *TabModified*
+
+This group is applied to the modified flag (set using taboo_modified_tab_flag)
+that can be included in the tab format (set using taboo_tab_format). This
+group applies only to the modified flag in tabs that are not currently
+selected.
+
+Default: linked-to TabLine (renders the same as that)
+
+------------------------------------------------------------------------------
+                                                         *TabModifiedSelected*
+
+This group is applied to the modified flag (set using taboo_modified_tab_flag)
+that can be included in the tab format (set using taboo_tab_format). This
+group applies only to the modified flag on the currently selected tab.
+
+Default: linked-to TabLineSel (renders the same as that)
+
+
+==============================================================================
+7. Credits                                                     *taboo-credits*
 
 Author: Giacomo Comitti
 Contributors: https://github.com/gcmt/taboo.vim/contributors
@@ -156,7 +185,7 @@ Git repository: https://github.com/gcmt/taboo.vim
 
 
 ==============================================================================
-7. License                                                     *taboo-license*
+8. License                                                     *taboo-license*
 
 Copyright (c) 2014 Giacomo Comitti
 
