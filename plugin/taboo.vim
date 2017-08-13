@@ -174,7 +174,15 @@ endfu
 fu s:modflag(tabnr)
     for buf in tabpagebuflist(a:tabnr)
         if getbufvar(buf, "&mod")
-            return g:taboo_modified_tab_flag
+            if a:tabnr == tabpagenr()
+               return "%#TabModifiedSelected#"
+                        \. g:taboo_modified_tab_flag
+                        \. "%#TabLineSel#"
+            else
+               return "%#TabModified#"
+                        \. g:taboo_modified_tab_flag
+                        \. "%#TabLine#"
+            endif
         endif
     endfor
     return ""
