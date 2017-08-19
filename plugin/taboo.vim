@@ -185,7 +185,15 @@ endfu
 fu s:modflag(tabnr)
     for buf in tabpagebuflist(a:tabnr)
         if getbufvar(buf, "&mod")
-            return g:taboo_modified_tab_flag
+            if a:tabnr == tabpagenr()
+               return "%#TabModifiedSelected#"
+                        \. g:taboo_modified_tab_flag
+                        \. "%#TabLineSel#"
+            else
+               return "%#TabModified#"
+                        \. g:taboo_modified_tab_flag
+                        \. "%#TabLine#"
+            endif
         endif
     endfor
     return ""
@@ -326,6 +334,13 @@ augroup taboo
 augroup END
 
 " =============================================================================
+
+
+" Highlight Groups
+" =============================================================================
+" Link new highlight groups to reasonable/expected defaults
+highlight link TabModified TabLine
+highlight link TabModifiedSelected TabLineSel
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
