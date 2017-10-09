@@ -327,8 +327,8 @@ augroup END
 " Highlight Groups
 " =============================================================================
 " Link new highlight groups to reasonable/expected defaults
-highlight link TabModified TabLine
-highlight link TabModifiedSelected TabLineSel
+highlight default link TabModified TabLine
+highlight default link TabModifiedSelected TabLineSel
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
