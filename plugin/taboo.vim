@@ -105,7 +105,9 @@ endfu
 fu s:expand(tabnr, fmt)
     let out = a:fmt
     let out = substitute(out, '\C%f', s:bufname(a:tabnr), "")
+    let out = substitute(out, '\C%F', s:bufnameCurrentWin(a:tabnr), "")
     let out = substitute(out, '\C%a', s:bufpath(a:tabnr), "")
+    let out = substitute(out, '\C%A', s:bufpathCurrentWin(a:tabnr), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
     let out = substitute(out, '\C%w', s:wincount(a:tabnr, 0), "")
@@ -198,9 +200,31 @@ fu s:bufname(tabnr)
     return g:taboo_unnamed_tab_label
 endfu
 
+fu s:bufnameCurrentWin(tabnr)
+    let buffers = tabpagebuflist(a:tabnr)
+    let win_idx = tabpagewinnr(a:tabnr)
+    let buf = buffers[win_idx - 1]
+    let bname = bufname(buf > -1 ? buf : buffers[0])
+    if !empty(bname)
+        return s:basename(bname)
+    endif
+    return g:taboo_unnamed_tab_label
+endfu
+
 fu s:bufpath(tabnr)
     let buffers = tabpagebuflist(a:tabnr)
     let buf = s:first_normal_buffer(buffers)
+    let bname = bufname(buf > -1 ? buf : buffers[0])
+    if !empty(bname)
+        return s:fullpath(bname, 1)
+    endif
+    return g:taboo_unnamed_tab_label
+endfu
+
+fu s:bufpathCurrentWin(tabnr)
+    let buffers = tabpagebuflist(a:tabnr)
+    let win_idx = tabpagewinnr(a:tabnr)
+    let buf = buffers[win_idx - 1]
     let bname = bufname(buf > -1 ? buf : buffers[0])
     if !empty(bname)
         return s:fullpath(bname, 1)
