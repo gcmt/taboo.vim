@@ -172,6 +172,9 @@ fu s:wincountUnicode(tabnr, ubiquitous)
 endfu
 
 fu s:modflag(tabnr)
+    if !g:taboo_tabline
+        return ""
+    endif
     for buf in tabpagebuflist(a:tabnr)
         if getbufvar(buf, "&mod")
             if a:tabnr == tabpagenr()
