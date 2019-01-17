@@ -39,6 +39,7 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%m`: the modified flag
 - `%p`: the tab current working directory
 - `%P`: the last component of the tab current working directory
+- `%x`: close tab button, see `g:taboo_close_tab_label`
 
 Default: `" %f%m "`
 
@@ -63,6 +64,12 @@ Default: `"*"`
 Turn off this option and Taboo won't generate the tabline. This may be useful if you want to do it yourself with the help of the functions `TabooTabTitle(..)` or `TabooTabName(..)`.
 
 Default: `1`
+
+**g:taboo\_close\_tab\_label**
+
+This option controls how the close button looks like.
+
+Default: `"x"`
 
 ### Public interface
 

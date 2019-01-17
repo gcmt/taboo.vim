@@ -40,6 +40,9 @@ let g:taboo_modified_tab_flag =
 let g:taboo_close_tabs_label =
     \ get(g:, "taboo_close_tabs_label", "")
 
+let g:taboo_close_tab_label =
+    \ get(g:, "taboo_close_tab_label", "x")
+
 let g:taboo_unnamed_tab_label =
     \ get(g:, "taboo_unnamed_tab_label", "[no name]")
 
@@ -116,6 +119,7 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%l', s:tabname(a:tabnr), "")
     let out = substitute(out, '\C%p', s:tabpwd(a:tabnr, 0), "")
     let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
+    let out = substitute(out, '\C%x', s:tabclose(a:tabnr), "")
     return out
 endfu
 
@@ -186,6 +190,10 @@ fu s:modflag(tabnr)
         endif
     endfor
     return ""
+endfu
+
+fu s:tabclose(tabnr)
+  return '%' . a:tabnr . 'X' . g:taboo_close_tab_label . '%X'
 endfu
 
 fu s:bufname(tabnr)
