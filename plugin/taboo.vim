@@ -172,16 +172,17 @@ fu s:wincountUnicode(tabnr, ubiquitous)
 endfu
 
 fu s:modflag(tabnr)
+    let flag = g:taboo_modified_tab_flag
     for buf in tabpagebuflist(a:tabnr)
         if getbufvar(buf, "&mod")
-            if a:tabnr == tabpagenr()
-               return "%#TabModifiedSelected#"
-                        \. g:taboo_modified_tab_flag
-                        \. "%#TabLineSel#"
+            if g:taboo_tabline
+                if a:tabnr == tabpagenr()
+                    return "%#TabModifiedSelected#" . flag . "%#TabLineSel#"
+                else
+                    return "%#TabModified#" . flag . "%#TabLine#"
+                endif
             else
-               return "%#TabModified#"
-                        \. g:taboo_modified_tab_flag
-                        \. "%#TabLine#"
+                return flag
             endif
         endif
     endfor
