@@ -32,10 +32,12 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%a`: the path relative to `$HOME` of the first buffer open in the tab
 - `%n`: the tab number, but only on the active tab
 - `%N`: the tab number on each tab
+- `%i`: same as `%n`, but using superscript numbers (eg. `²`)
+- `%I`: same as `%N`, but using superscript numbers
 - `%w`: the number of windows opened into the tab, but only on the active tab
 - `%W`: the number of windows opened into the tab, on each tab
-- `%u`: same as %w, but using unicode characters
-- `%U`: same as %W, but using unicode characters
+- `%u`: same as `%w`, but using superscript numbers (eg. `³`)
+- `%U`: same as `%W`, but using superscript numbers
 - `%m`: the modified flag
 - `%p`: the tab current working directory
 - `%P`: the last component of the tab current working directory
