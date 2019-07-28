@@ -80,6 +80,7 @@ available items:
     `%u` -> same as %w, but using unicode characters
     `%U` -> same as %W, but using unicode characters
     `%m` -> the modified flag
+    `%x` -> close tab button, see |'taboo_close_tab_label'|
 
 Default: " %f%m "
 
@@ -121,6 +122,13 @@ This position is fixed. When the value is an empty string nothing will be
 displayed.
 
 Default: ""
+
+------------------------------------------------------------------------------
+                                                    *'taboo_close_tab_label'*
+
+This option controls how the close button looks like.
+
+Default: "x"
 
 ------------------------------------------------------------------------------
                                                    *'taboo_unnamed_tab_label'*
