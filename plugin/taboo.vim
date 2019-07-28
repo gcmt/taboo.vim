@@ -111,6 +111,8 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%a', s:bufpath(a:tabnr), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
+    let out = substitute(out, '\C%i', s:tabnumUnicode(a:tabnr, 0), "")
+    let out = substitute(out, '\C%I', s:tabnumUnicode(a:tabnr, 1), "")
     let out = substitute(out, '\C%w', s:wincount(a:tabnr, 0), "")
     let out = substitute(out, '\C%W', s:wincount(a:tabnr, 1), "")
     let out = substitute(out, '\C%u', s:wincountUnicode(a:tabnr, 0), "")
@@ -145,7 +147,18 @@ fu s:tabnum(tabnr, ubiquitous)
     if a:ubiquitous
         return a:tabnr
     endif
+
     return a:tabnr == tabpagenr() ? a:tabnr : ''
+endfu
+
+fu s:tabnumUnicode(tabnr, ubiquitous)
+    let number_to_show = s:numberToUnicode(a:tabnr)
+
+    if a:ubiquitous
+        return number_to_show
+    endif
+
+    return a:tabnr == tabpagenr() ? number_to_show : ''
 endfu
 
 fu s:wincount(tabnr, ubiquitous)
@@ -156,17 +169,9 @@ fu s:wincount(tabnr, ubiquitous)
     return a:tabnr == tabpagenr() ? windows : ''
 endfu
 
-" Adapted from Vim-CtrlSpace (https://github.com/szw/vim-ctrlspace)
 fu s:wincountUnicode(tabnr, ubiquitous)
     let buffers_number = tabpagewinnr(a:tabnr, '$')
-    let number_to_show = ""
-
-    let small_numbers = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
-    let number_str    = string(buffers_number)
-
-    for i in range(0, len(number_str) - 1)
-        let number_to_show .= small_numbers[str2nr(number_str[i])]
-    endfor
+    let number_to_show = s:numberToUnicode(buffers_number)
 
     if a:ubiquitous
         return number_to_show
@@ -174,6 +179,21 @@ fu s:wincountUnicode(tabnr, ubiquitous)
 
     return a:tabnr == tabpagenr() ? number_to_show : ''
 endfu
+
+" Adapted from Vim-CtrlSpace (https://github.com/szw/vim-ctrlspace)
+fu s:numberToUnicode(number)
+    let unicode_number = ""
+
+    let small_numbers = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
+    let number_str    = string(a:number)
+
+    for i in range(0, len(number_str) - 1)
+        let unicode_number .= small_numbers[str2nr(number_str[i])]
+    endfor
+
+    return unicode_number
+endfu
+
 
 fu s:modflag(tabnr)
     let flag = g:taboo_modified_tab_flag
