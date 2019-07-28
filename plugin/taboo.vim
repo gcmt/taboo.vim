@@ -320,10 +320,8 @@ command! -nargs=0 TabooReset call s:ResetTabName()
 
 augroup taboo
     au!
-    if g:taboo_tabline
-        au VimEnter * set tabline=%!TabooTabline()
-        au VimEnter * set guitablabel=%!TabooGuiTabTitle()
-    endif
+    au VimEnter * if g:taboo_tabline | set tabline=%!TabooTabline() | endif
+    au VimEnter * if g:taboo_tabline && has('gui') && has('windows') | set guitablabel=%!TabooGuiTabTitle() | endif
     au SessionLoadPost * cal s:restore_tabs()
     au TabLeave,TabEnter * cal s:refresh_tabline()
     au WinLeave,WinEnter * if v:version < 703 | cal s:sync_tab_name() | endif
