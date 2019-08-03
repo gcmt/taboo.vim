@@ -106,7 +106,7 @@ fu s:expand(tabnr, fmt)
     let out = a:fmt
     let out = substitute(out, '\C%f', s:bufname(a:tabnr), "")
     let out = substitute(out, '\C%a', s:bufpath(a:tabnr, 0), "")
-    let out = substitute(out, '\C%b', s:bufpath(a:tabnr, 1), "")
+    let out = substitute(out, '\C%r', s:bufpath(a:tabnr, 1), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
     let out = substitute(out, '\C%w', s:wincount(a:tabnr, 0), "")

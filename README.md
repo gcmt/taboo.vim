@@ -30,7 +30,7 @@ With this option you can customize the look of tabs. Below all the available ite
 
 - `%f`: the name of the first buffer open in the tab
 - `%a`: the path relative to `$HOME` of the first buffer open in the tab
-- `%b`: the path relative to the current working directory
+- `%r`: the path relative to the current working directory
 - `%n`: the tab number, but only on the active tab
 - `%N`: the tab number on each tab
 - `%w`: the number of windows opened into the tab, but only on the active tab
