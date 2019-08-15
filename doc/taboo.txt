@@ -83,6 +83,8 @@ available items:
     `%u` -> same as `%w`, but using superscript numbers (eg. `³`)
     `%U` -> same as `%W`, but using superscript numbers
     `%m` -> the modified flag
+    `%d` -> the Dev Icon for the file type (eg.  )
+	    (Requires vim-devicons and a powerline-patched font)
     `%x` -> close tab button, see |'taboo_close_tab_label'|
 
 Default: " %f%m "
