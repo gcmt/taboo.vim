@@ -108,6 +108,7 @@ endfu
 fu s:expand(tabnr, fmt)
     let out = a:fmt
     let out = substitute(out, '\C%f', s:bufname(a:tabnr), "")
+    let out = substitute(out, '\C%d', s:tabIcon(a:tabnr), "")
     let out = substitute(out, '\C%a', s:bufpath(a:tabnr, 0), "")
     let out = substitute(out, '\C%r', s:bufpath(a:tabnr, 1), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
@@ -160,6 +161,12 @@ fu s:tabnumUnicode(tabnr, ubiquitous)
     endif
 
     return a:tabnr == tabpagenr() ? number_to_show : ''
+endfu
+
+fu s:tabIcon(tabnr)
+  if exists("*WebDevIconsGetFileTypeSymbol")
+    return WebDevIconsGetFileTypeSymbol(s:bufname(a:tabnr))
+  endif
 endfu
 
 fu s:wincount(tabnr, ubiquitous)
