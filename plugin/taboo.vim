@@ -165,7 +165,7 @@ endfu
 
 fu s:tabIcon(tabnr)
   if exists("*WebDevIconsGetFileTypeSymbol")
-    return WebDevIconsGetFileTypeSymbol(s:bufname(a:tabnr)). ' '
+    return WebDevIconsGetFileTypeSymbol(s:bufname(a:tabnr))
   endif
 endfu
 
