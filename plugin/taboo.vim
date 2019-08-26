@@ -123,6 +123,7 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%l', s:tabname(a:tabnr), "")
     let out = substitute(out, '\C%p', s:tabpwd(a:tabnr, 0), "")
     let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
+    let out = substitute(out, '\C%S', s:tabpwd(a:tabnr, 2), "")
     let out = substitute(out, '\C%x', s:tabclose(a:tabnr), "")
     return out
 endfu
@@ -134,8 +135,12 @@ fu s:tabpwd(tabnr, last_component)
 
   let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
 
-  if a:last_component
-    let tabcwd = get(split(tabcwd, "/"), -1, "")
+  if a:last_component == 1
+    return get(split(tabcwd, "/"), -1, "")
+  endif
+
+  if a:last_component == 2
+    return pathshorten(fnamemodify(tabcwd, ":~"))
   endif
 
   return tabcwd

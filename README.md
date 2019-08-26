@@ -42,6 +42,7 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%m`: the modified flag
 - `%p`: the tab current working directory
 - `%P`: the last component of the tab current working directory
+- `%S`: the shortened tab current working directory
 - `%x`: close tab button, see `g:taboo_close_tab_label`
 
 Default: `" %f%m "`
