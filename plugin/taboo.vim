@@ -104,6 +104,9 @@ endfu
 
 " Functions for formatting the tab title
 " =============================================================================
+fu s:is_windows_system()
+    return has('win16') || has('win32') || has('win64')
+endfu
 
 fu s:expand(tabnr, fmt)
     let out = a:fmt
@@ -130,7 +133,7 @@ endfu
 
 fu s:tabpwd(tabnr, last_component)
   if a:tabnr == tabpagenr()
-    cal s:settabvar(a:tabnr, "taboo_tab_wd", getcwd())
+      cal s:settabvar(a:tabnr, "taboo_tab_wd", substitute(getcwd(), '\\', '\\\\', 'g'))
   endif
 
   let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
@@ -270,8 +273,9 @@ fu s:basename(bufname)
 endfu
 
 fu s:fullpath(bufname, pretty)
-    let path = fnamemodify(a:bufname, ':p')
-    return a:pretty ? substitute(path, $HOME, '~', '') : path
+    let path = substitute(fnamemodify(a:bufname, ':p'), '\\', '/', 'g')
+    let home = substitute($HOME, '\\', '/', 'g')
+    return a:pretty ? substitute(path, home, '~', '') : path
 endfu
 
 fu s:first_normal_buffer(buffers)
@@ -287,7 +291,7 @@ endfu
 " To refresh the tabline.
 " This function also ensures that g:Taboo_tabs stays updated.
 fu s:refresh_tabline()
-    cal s:settabvar(tabpagenr(), "taboo_tab_wd", getcwd())
+    cal s:settabvar(tabpagenr(), "taboo_tab_wd", substitute(getcwd(), '\\', '\\\\', 'g'))
     if exists("g:SessionLoad")
         return
     endif
