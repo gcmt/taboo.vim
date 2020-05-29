@@ -233,9 +233,9 @@ endfu
 fu s:bufname(tabnr)
     let buffers = tabpagebuflist(a:tabnr)
     let buf = s:first_normal_buffer(buffers)
-    let bname = bufname(buf > -1 ? buf : buffers[0])
+    let bname = s:basename(buf > -1 ? buf : buffers[0])
     if !empty(bname)
-        return s:basename(bname)
+        return bname
     endif
     return g:taboo_unnamed_tab_label
 endfu
@@ -265,8 +265,8 @@ fu s:windows(tabnr)
     return range(1, tabpagewinnr(a:tabnr, '$'))
 endfu
 
-fu s:basename(bufname)
-    return fnamemodify(a:bufname, ':p:t')
+fu s:basename(bufnum)
+    return expand('#'.a:bufnum.':t')
 endfu
 
 fu s:fullpath(bufname, pretty)
