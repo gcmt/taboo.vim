@@ -33,6 +33,7 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%a`: the path relative to `$HOME` of the first buffer open in the tab
 - `%A`: the path relative to `$HOME` of the buffer open in the current window of the tab
 - `%r`: the path relative to the current working directory
+- `%R`: the path relative to the current working directory of the buffer in the current window of the tab
 - `%n`: the tab number, but only on the active tab
 - `%N`: the tab number on each tab
 - `%i`: same as `%n`, but using superscript numbers (eg. `²`)

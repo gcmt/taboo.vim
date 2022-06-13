@@ -111,8 +111,9 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%F', s:bufnameCurrentWin(a:tabnr), "")
     let out = substitute(out, '\C%d', s:tabIcon(a:tabnr), "")
     let out = substitute(out, '\C%a', s:bufpath(a:tabnr, 0), "")
-    let out = substitute(out, '\C%A', s:bufpathCurrentWin(a:tabnr), "")
+    let out = substitute(out, '\C%A', s:bufpathCurrentWin(a:tabnr, 0), "")
     let out = substitute(out, '\C%r', s:bufpath(a:tabnr, 1), "")
+    let out = substitute(out, '\C%R', s:bufpathCurrentWin(a:tabnr, 1), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
     let out = substitute(out, '\C%i', s:tabnumUnicode(a:tabnr, 0), "")
@@ -267,13 +268,17 @@ fu s:bufpath(tabnr, relative)
     return g:taboo_unnamed_tab_label
 endfu
 
-fu s:bufpathCurrentWin(tabnr)
+fu s:bufpathCurrentWin(tabnr, relative)
     let buffers = tabpagebuflist(a:tabnr)
     let win_idx = tabpagewinnr(a:tabnr)
     let buf = buffers[win_idx - 1]
     let bname = bufname(buf > -1 ? buf : buffers[0])
     if !empty(bname)
-        return s:fullpath(bname, 1)
+        if a:relative
+            return bname
+        else
+            return s:fullpath(bname, 1)
+        endif
     endif
     return g:taboo_unnamed_tab_label
 endfu
