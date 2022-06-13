@@ -34,7 +34,7 @@ line to your .vimrc file
 >
     set guioptions-=e
 <
-Taboo is able to remeber tab names when you save the current session
+Taboo is able to remember tab names when you save the current session
 but you are required to set the following option in your .vimrc file
 >
     set sessionoptions+=tabpages,globals
@@ -75,13 +75,19 @@ available items:
     `%F` -> the name of the buffer open in the current window of the tab
     `%a` -> the path relative to `$HOME` of the first buffer open in the tab
     `%A` -> the path relative to `$HOME` of the buffer open in the current window of the tab
+    `%r` -> the path relative to the current working directory
     `%n` -> the tab number, but only on the active tab
     `%N` -> the tab number on each tab
+ `   %i` -> same as `%n`, but using superscript numbers (eg. `²`)
+   ` %I` -> same as `%N`, but using superscript numbers
     `%w` -> the number of windows opened into the tab, but only on the active tab
     `%W` -> the number of windows opened into the tab, on each tab
-    `%u` -> same as %w, but using unicode characters
-    `%U` -> same as %W, but using unicode characters
+    `%u` -> same as `%w`, but using superscript numbers (eg. `³`)
+    `%U` -> same as `%W`, but using superscript numbers
     `%m` -> the modified flag
+    `%d` -> the Dev Icon for the file type (eg.  )
+	    (Requires vim-devicons and a powerline-patched font)
+    `%x` -> close tab button, see |'taboo_close_tab_label'|
 
 Default: " %f%m "
 
@@ -123,6 +129,13 @@ This position is fixed. When the value is an empty string nothing will be
 displayed.
 
 Default: ""
+
+------------------------------------------------------------------------------
+                                                    *'taboo_close_tab_label'*
+
+This option controls how the close button looks like.
+
+Default: "x"
 
 ------------------------------------------------------------------------------
                                                    *'taboo_unnamed_tab_label'*

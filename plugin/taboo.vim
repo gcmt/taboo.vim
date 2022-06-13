@@ -40,6 +40,9 @@ let g:taboo_modified_tab_flag =
 let g:taboo_close_tabs_label =
     \ get(g:, "taboo_close_tabs_label", "")
 
+let g:taboo_close_tab_label =
+    \ get(g:, "taboo_close_tab_label", "x")
+
 let g:taboo_unnamed_tab_label =
     \ get(g:, "taboo_unnamed_tab_label", "[no name]")
 
@@ -106,10 +109,14 @@ fu s:expand(tabnr, fmt)
     let out = a:fmt
     let out = substitute(out, '\C%f', s:bufname(a:tabnr), "")
     let out = substitute(out, '\C%F', s:bufnameCurrentWin(a:tabnr), "")
-    let out = substitute(out, '\C%a', s:bufpath(a:tabnr), "")
+    let out = substitute(out, '\C%d', s:tabIcon(a:tabnr), "")
+    let out = substitute(out, '\C%a', s:bufpath(a:tabnr, 0), "")
     let out = substitute(out, '\C%A', s:bufpathCurrentWin(a:tabnr), "")
+    let out = substitute(out, '\C%r', s:bufpath(a:tabnr, 1), "")
     let out = substitute(out, '\C%n', s:tabnum(a:tabnr, 0), "")
     let out = substitute(out, '\C%N', s:tabnum(a:tabnr, 1), "")
+    let out = substitute(out, '\C%i', s:tabnumUnicode(a:tabnr, 0), "")
+    let out = substitute(out, '\C%I', s:tabnumUnicode(a:tabnr, 1), "")
     let out = substitute(out, '\C%w', s:wincount(a:tabnr, 0), "")
     let out = substitute(out, '\C%W', s:wincount(a:tabnr, 1), "")
     let out = substitute(out, '\C%u', s:wincountUnicode(a:tabnr, 0), "")
@@ -118,6 +125,8 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%l', s:tabname(a:tabnr), "")
     let out = substitute(out, '\C%p', s:tabpwd(a:tabnr, 0), "")
     let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
+    let out = substitute(out, '\C%S', s:tabpwd(a:tabnr, 2), "")
+    let out = substitute(out, '\C%x', s:tabclose(a:tabnr), "")
     return out
 endfu
 
@@ -128,8 +137,12 @@ fu s:tabpwd(tabnr, last_component)
 
   let tabcwd = s:gettabvar(a:tabnr, "taboo_tab_wd")
 
-  if a:last_component
-    let tabcwd = get(split(tabcwd, "/"), -1, "")
+  if a:last_component == 1
+    return get(split(tabcwd, "/"), -1, "")
+  endif
+
+  if a:last_component == 2
+    return pathshorten(fnamemodify(tabcwd, ":~"))
   endif
 
   return tabcwd
@@ -143,7 +156,24 @@ fu s:tabnum(tabnr, ubiquitous)
     if a:ubiquitous
         return a:tabnr
     endif
+
     return a:tabnr == tabpagenr() ? a:tabnr : ''
+endfu
+
+fu s:tabnumUnicode(tabnr, ubiquitous)
+    let number_to_show = s:numberToUnicode(a:tabnr)
+
+    if a:ubiquitous
+        return number_to_show
+    endif
+
+    return a:tabnr == tabpagenr() ? number_to_show : ''
+endfu
+
+fu s:tabIcon(tabnr)
+  if exists("*WebDevIconsGetFileTypeSymbol")
+    return WebDevIconsGetFileTypeSymbol(s:bufname(a:tabnr))
+  endif
 endfu
 
 fu s:wincount(tabnr, ubiquitous)
@@ -154,17 +184,9 @@ fu s:wincount(tabnr, ubiquitous)
     return a:tabnr == tabpagenr() ? windows : ''
 endfu
 
-" Adapted from Vim-CtrlSpace (https://github.com/szw/vim-ctrlspace)
 fu s:wincountUnicode(tabnr, ubiquitous)
     let buffers_number = tabpagewinnr(a:tabnr, '$')
-    let number_to_show = ""
-
-    let small_numbers = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
-    let number_str    = string(buffers_number)
-
-    for i in range(0, len(number_str) - 1)
-        let number_to_show .= small_numbers[str2nr(number_str[i])]
-    endfor
+    let number_to_show = s:numberToUnicode(buffers_number)
 
     if a:ubiquitous
         return number_to_show
@@ -173,21 +195,41 @@ fu s:wincountUnicode(tabnr, ubiquitous)
     return a:tabnr == tabpagenr() ? number_to_show : ''
 endfu
 
+" Adapted from Vim-CtrlSpace (https://github.com/szw/vim-ctrlspace)
+fu s:numberToUnicode(number)
+    let unicode_number = ""
+
+    let small_numbers = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
+    let number_str    = string(a:number)
+
+    for i in range(0, len(number_str) - 1)
+        let unicode_number .= small_numbers[str2nr(number_str[i])]
+    endfor
+
+    return unicode_number
+endfu
+
+
 fu s:modflag(tabnr)
+    let flag = g:taboo_modified_tab_flag
     for buf in tabpagebuflist(a:tabnr)
         if getbufvar(buf, "&mod")
-            if a:tabnr == tabpagenr()
-               return "%#TabModifiedSelected#"
-                        \. g:taboo_modified_tab_flag
-                        \. "%#TabLineSel#"
+            if g:taboo_tabline
+                if a:tabnr == tabpagenr()
+                    return "%#TabModifiedSelected#" . flag . "%#TabLineSel#"
+                else
+                    return "%#TabModified#" . flag . "%#TabLine#"
+                endif
             else
-               return "%#TabModified#"
-                        \. g:taboo_modified_tab_flag
-                        \. "%#TabLine#"
+                return flag
             endif
         endif
     endfor
     return ""
+endfu
+
+fu s:tabclose(tabnr)
+  return '%' . a:tabnr . 'X' . g:taboo_close_tab_label . '%X'
 endfu
 
 fu s:bufname(tabnr)
@@ -211,12 +253,16 @@ fu s:bufnameCurrentWin(tabnr)
     return g:taboo_unnamed_tab_label
 endfu
 
-fu s:bufpath(tabnr)
+fu s:bufpath(tabnr, relative)
     let buffers = tabpagebuflist(a:tabnr)
     let buf = s:first_normal_buffer(buffers)
     let bname = bufname(buf > -1 ? buf : buffers[0])
     if !empty(bname)
-        return s:fullpath(bname, 1)
+        if a:relative
+            return bname
+        else
+            return s:fullpath(bname, 1)
+        endif
     endif
     return g:taboo_unnamed_tab_label
 endfu
@@ -335,10 +381,8 @@ command! -nargs=0 TabooReset call s:ResetTabName()
 
 augroup taboo
     au!
-    if g:taboo_tabline
-        au VimEnter * set tabline=%!TabooTabline()
-        au VimEnter * set guitablabel=%!TabooGuiTabTitle()
-    endif
+    au VimEnter * if g:taboo_tabline | set tabline=%!TabooTabline() | endif
+    au VimEnter * if g:taboo_tabline && has('gui') && has('windows') | set guitablabel=%!TabooGuiTabTitle() | endif
     au SessionLoadPost * cal s:restore_tabs()
     au TabLeave,TabEnter * cal s:refresh_tabline()
     au WinLeave,WinEnter * if v:version < 703 | cal s:sync_tab_name() | endif
@@ -351,8 +395,8 @@ augroup END
 " Highlight Groups
 " =============================================================================
 " Link new highlight groups to reasonable/expected defaults
-highlight link TabModified TabLine
-highlight link TabModifiedSelected TabLineSel
+highlight default link TabModified TabLine
+highlight default link TabModifiedSelected TabLineSel
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

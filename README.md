@@ -32,15 +32,20 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%F`: the name of the buffer open in the current window of the tab
 - `%a`: the path relative to `$HOME` of the first buffer open in the tab
 - `%A`: the path relative to `$HOME` of the buffer open in the current window of the tab
+- `%r`: the path relative to the current working directory
 - `%n`: the tab number, but only on the active tab
 - `%N`: the tab number on each tab
+- `%i`: same as `%n`, but using superscript numbers (eg. `²`)
+- `%I`: same as `%N`, but using superscript numbers
 - `%w`: the number of windows opened into the tab, but only on the active tab
 - `%W`: the number of windows opened into the tab, on each tab
-- `%u`: same as %w, but using unicode characters
-- `%U`: same as %W, but using unicode characters
+- `%u`: same as `%w`, but using superscript numbers (eg. `³`)
+- `%U`: same as `%W`, but using superscript numbers
 - `%m`: the modified flag
 - `%p`: the tab current working directory
 - `%P`: the last component of the tab current working directory
+- `%S`: the shortened tab current working directory
+- `%x`: close tab button, see `g:taboo_close_tab_label`
 
 Default: `" %f%m "`
 
@@ -65,6 +70,12 @@ Default: `"*"`
 Turn off this option and Taboo won't generate the tabline. This may be useful if you want to do it yourself with the help of the functions `TabooTabTitle(..)` or `TabooTabName(..)`.
 
 Default: `1`
+
+**g:taboo\_close\_tab\_label**
+
+This option controls how the close button looks like.
+
+Default: `"x"`
 
 ### Public interface
 
