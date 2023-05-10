@@ -86,6 +86,8 @@ available items:
     `%d` -> the Dev Icon for the file type (eg.  )
 	    (Requires vim-devicons and a powerline-patched font)
     `%x` -> close tab button, see |'taboo_close_tab_label'|
+    `%b` -> the tab sequence described by letter, i.e, 'A' for first tab, 'B'for second tab(only for active tabs)
+    `%B` -> the tab sequence described by letter, i.e, 'A' for first tab, 'B'for second tab(for all tabs)
 
 Default: " %f%m "
 

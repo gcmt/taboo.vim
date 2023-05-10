@@ -44,6 +44,8 @@ With this option you can customize the look of tabs. Below all the available ite
 - `%P`: the last component of the tab current working directory
 - `%S`: the shortened tab current working directory
 - `%x`: close tab button, see `g:taboo_close_tab_label`
+- `%b`: the tab sequence described by letter, i.e, 'A' for first tab, 'B'for second tab(only for active tabs)
+- `%B`: the tab sequence described by letter, i.e, 'A' for first tab, 'B'for second tab(for all tabs)
 
 Default: `" %f%m "`
 

@@ -125,6 +125,9 @@ fu s:expand(tabnr, fmt)
     let out = substitute(out, '\C%P', s:tabpwd(a:tabnr, 1), "")
     let out = substitute(out, '\C%S', s:tabpwd(a:tabnr, 2), "")
     let out = substitute(out, '\C%x', s:tabclose(a:tabnr), "")
+    let out = substitute(out, '\C%b', nr2char(char2nr('A')-1+s:tabnum(a:tabnr, 0)), "")
+    let out = substitute(out, '\C%B', nr2char(char2nr('A')-1+s:tabnum(a:tabnr, 1)), "")
+
     return out
 endfu
 
