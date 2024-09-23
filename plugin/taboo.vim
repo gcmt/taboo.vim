@@ -75,9 +75,6 @@ fu TabooTabline()
         let title = s:expand(i, fmt)
         let width = strwidth(substitute(title, '%#[^#]*#\|%\d\{-}T', '', 'g'))
         let titles += [[prefix . title, width]]
-        if i == tabpagenr('$')
-            break
-        endif
         let current_width += width
         if (current_width > max_width)
             if i <= tabpagenr() + 1
