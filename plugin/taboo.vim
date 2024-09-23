@@ -46,21 +46,70 @@ let g:taboo_close_tab_label =
 let g:taboo_unnamed_tab_label =
     \ get(g:, "taboo_unnamed_tab_label", "[no name]")
 
+let g:more_tabs_highlight =
+    \ get(g:, "more_tabs_highlight", "TabLineSel")
+
+let g:taboo_next_tabs_label =
+    \ get(g:, "taboo_next_tabs_label", ">")
+
+let g:taboo_prev_tabs_label =
+    \ get(g:, "taboo_prev_tabs_label", "<")
+
 " Functions
 " =============================================================================
 
 " To construct the tabline string for terminal vim.
 fu TabooTabline()
-    let tabline = ''
+    let titles = []
+    let show_next_tabs_label = 0
+    let next_tabs_label_len = strwidth(g:taboo_next_tabs_label)
+    let show_prev_tabs_label = 0
+    let prev_tabs_label_len = strwidth(g:taboo_prev_tabs_label)
+    let close_label_len = strwidth(g:taboo_close_tabs_label)
+    let max_width = &columns - next_tabs_label_len - close_label_len
+    let current_width = 0
     for i in s:tabs()
-        let tabline .= i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
-        let title = s:gettabvar(i, "taboo_tab_name")
-        let fmt = empty(title) ? g:taboo_tab_format : g:taboo_renamed_tab_format
-        let tabline .= '%' . i . 'T'
-        let tabline .= s:expand(i, fmt)
+        let prefix = (i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#') . '%' . i . 'T'
+        let title_format = s:gettabvar(i, "taboo_tab_name")
+        let fmt = empty(title_format) ? g:taboo_tab_format : g:taboo_renamed_tab_format
+        let title = s:expand(i, fmt)
+        let width = strwidth(substitute(title, '%#[^#]*#\|%\d\{-}T', '', 'g'))
+        let titles += [[prefix . title, width]]
+        if i == tabpagenr('$')
+            break
+        endif
+        let current_width += width
+        if (current_width > max_width)
+            if i <= tabpagenr() + 1
+                if !show_prev_tabs_label
+                    let show_prev_tabs_label = 1
+                    let max_width = &columns - prev_tabs_label_len - next_tabs_label_len - close_label_len
+                endif
+                while (current_width > max_width) && len(titles) > 1
+                    let current_width -= remove(titles, 0)[1]
+                endwhile
+                continue
+            else
+                let show_next_tabs_label = 1
+                let trim = current_width - max_width
+                let trimmed = strcharpart(title, -1, width-trim+1)
+                if strwidth(trimmed) < 3
+                    let trimmed = substitute(trimmed, ".", ".", 'g')
+                endif
+                let titles[-1] = [prefix . trimmed, width-trim]
+                break
+            endif
+        endif
     endfor
-    let tabline .= '%#TabLineFill#%T'
-    let tabline .= '%=%#TabLine#%999X' . g:taboo_close_tabs_label
+
+    let tabline = show_prev_tabs_label ? ('%#' . g:more_tabs_highlight . '#' . g:taboo_prev_tabs_label) : ''
+    for title in titles
+        let tabline .= title[0]
+    endfor
+
+    let tabline .= '%#TabLineFill#%T%=' 
+    let tabline .= show_next_tabs_label ? ('%#' . g:more_tabs_highlight . '#' . g:taboo_next_tabs_label) : ''
+    let tabline .= '%#TabLine#%999X' . g:taboo_close_tabs_label
     return tabline
 endfu
 
